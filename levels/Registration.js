@@ -79,7 +79,7 @@ export function RegistrationScreen_Test_1({ navigation }) {
       toValue: { x: 70, y: 5 },
       useNativeDriver: false, // add this line
     }).start(async () =>{
-      await saveFirstInputTest(1, [randomNumber1, "+", randomNumber2], readys[index], ready_number)
+      await saveFirstInputTest(1, "default",[randomNumber1, "+", randomNumber2], readys[index], ready_number)
       navigation.navigate("ПершийВхіднийТест_2")
     });
   };
@@ -150,7 +150,7 @@ export function RegistrationScreen_Test_2({ navigation }) {
       toValue: { x: 70, y: 5 },
       useNativeDriver: false, // add this line
     }).start(async () =>{
-      await saveFirstInputTest(2, [randomNumber1,"-",randomNumber2], readys[index], ready_number)
+      await saveFirstInputTest(2, "default",[randomNumber1,"-",randomNumber2], readys[index], ready_number)
       navigation.navigate("ПершийВхіднийТест_3")
     });
   };
@@ -221,7 +221,7 @@ export function RegistrationScreen_Test_3({ navigation }) {
       toValue: { x: 70, y: 0 },
       useNativeDriver: false, // add this line
     }).start(async () =>{
-      await saveFirstInputTest(3, [randomNumber1,"x",randomNumber2], readys[index], ready_number)
+      await saveFirstInputTest(3, "default",[randomNumber1,"x",randomNumber2], readys[index], ready_number)
       navigation.navigate("ПершийВхіднийТест_4")
     });
   };
@@ -293,7 +293,7 @@ export function RegistrationScreen_Test_4({ navigation }) {
       toValue: { x: 70, y: 0 },
       useNativeDriver: false, // add this line
     }).start(async () =>{
-      await saveFirstInputTest(4, [randomNumber1,":",randomNumber2], readys[index], ready_number)
+      await saveFirstInputTest(4, "default",[randomNumber1,":",randomNumber2], readys[index], ready_number)
       navigation.navigate("ПершийВхіднийТест_5")
     });
   };
@@ -366,7 +366,7 @@ export function RegistrationScreen_Test_5({ navigation }) {
       toValue: { x: -20, y: 0 },
       useNativeDriver: false, // add this line
     }).start(async () =>{
-      await saveFirstInputTest(5, [randomNumber1,randomNumber2], readys[index], GrosserKleinerGleich(randomNumber1,randomNumber2))
+      await saveFirstInputTest(5, "vergleichen",[randomNumber1,randomNumber2], readys[index], GrosserKleinerGleich(randomNumber1,randomNumber2))
       navigation.navigate("ПершийВхіднийТест_6")
     });
   };
@@ -440,8 +440,8 @@ export function RegistrationScreen_Test_6({ navigation }) {
     console.log('Enter pressed! Value:', inputValue);
     console.log('Enter pressed! Value`:', CELL_COUNTq);
     navigation.navigate("ПершийВхіднийТест_Кінець")
-    console.log(await loadFirstInputTest("ПершийВхіднийТест"))
-    await saveFirstInputTest(4, [randomNumber1,operator1, randomNumber3,operator2,randomNumber2], inputValue.split('').reverse().join('').parseInt(),  ready_number)
+
+    await saveFirstInputTest(6, "onDefault",[randomNumber1,operator1, randomNumber3,operator2,randomNumber2], parseInt(inputValue),  ready_number)
   };
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -453,7 +453,6 @@ export function RegistrationScreen_Test_6({ navigation }) {
   return (
     
     <View style={styles.container}>
-      <Text> </Text>
       <Text style={[styles.answer,
         { 
           width: 100,
@@ -477,36 +476,47 @@ export function RegistrationScreen_Ende({navigation}){
       headerLeft: () => false, // Hide the back button
     });
   }, [navigation]);
-  let arrayEinsBlockInfo = [0,1,2]
+  const [data, setData] = useState(null);
+  console.log(123, typeof data)
+
+  useEffect(() => {
+    // Вызываем вашу функцию загрузки данных
+    const fetchData = async () => {
+      setTimeout(async() => {
+      try {
+        const loadedData = await loadFirstInputTest('ПершийВхіднийТест'); // Замените 'your_key' на ваш ключ
+        console.log(loadedData)
+        setData(loadedData);
+      } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+      }})
+    };
+    
+    fetchData();
+  }, []); // Пустой массив зависимостей означает, что useEffect будет вызван только при монтировании компонента
+  const lifl = data
   return (
     <View style={{ flex: 1, backgroundColor: "#98EB9E"}}>
       {/* ScrollView для текстового элемента */}
       <ScrollView style={{ flex: 1,
         //  backgroundColor: ""
          }}>
-        {/* <View style={{
-         flexDirection: 'row', 
-         justifyContent: 'space-between',
-        //  alignItems: 'center',
-         backgroundColor: "#3EE665",
-         borderRadius:20, 
-         borderColor: "#707070",
-        borderWidth: 2,
-        flex: 100
 
-        }}> */}
-          <WidgetEndeScreen></WidgetEndeScreen>
-          <WidgetEndeScreen></WidgetEndeScreen>
-          <WidgetEndeScreen></WidgetEndeScreen>
-          {/* {arrayEinsBlockInfo.map((item, index) => (
-    <View key={index}>
-      <Text style={[styles.number, {padding: 0}]}>{item}</Text>
-    </View>
-  ))} */}
-        {/* </View> */}
-        <Text style={{fontSize:100}}>
-          Длинный текст, который будет прокручиваться, и другие компоненты...
-        </Text>
+        {data ?(
+         Object.keys(data).map((key) => (
+          <WidgetEndeScreen key={key} listData={data[key]}></WidgetEndeScreen>
+          ))
+        ) : (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <LottieView
+          source={require('./../assets/loading.json')} // Замените на свой файл анимации
+          autoPlay
+          // ref={animation}
+          style={{ width: 700, height: 700 }}
+          loop={true}
+        />
+      </View>
+      )}
       </ScrollView>
 
       {/* Кнопка "Продолжить" */}

@@ -137,13 +137,13 @@ export default function App() {
 
 //   return (
 //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-//       {loading && (
-//         <LottieView
-//           source={require('./assets/loading.json')} // Замените на свой файл анимации
-//           autoPlay
-//           loop={true}
-//         />
-//       )}
+      // {loading && (
+      //   <LottieView
+      //     source={require('./assets/loading.json')} // Замените на свой файл анимации
+      //     autoPlay
+      //     loop={true}
+      //   />
+      // )}
 //       {numbers.length > 0 && numbers.map((num, index) => <Text key={index}>{num}</Text>)}
 //     </View>
 //   );

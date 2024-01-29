@@ -75,13 +75,13 @@ export const clearFirstInputTest = async (nameTest) => {
 
 
 // Функция для сохранения прогресса уровней
-export const saveFirstInputTest = async (level, task, antvorteMan, antvorteGut) => {
+export const saveFirstInputTest = async (level,type, task, antvorteMan, antvorteGut) => {
   try {
     // Загружаем текущие данные или создаем новый объект, если данных нет
     const levelProgress = (await loadData('ПершийВхіднийТест')) || {};
 
     // Обновляем данные для указанного уровня
-    levelProgress[parseInt(level)] = {task, antvorteMan, antvorteGut};
+    levelProgress[parseInt(level)] = {type, task, antvorteMan, antvorteGut};
 
     // Выводим данные в консоль перед сохранением
     // console.log('Данные перед сохранением:', levelProgress);

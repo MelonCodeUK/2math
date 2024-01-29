@@ -236,20 +236,87 @@ const numberes = numbers.map(number => { // Преобразуем каждое 
 // export default App;
 
 
-
-
-export const WidgetEndeScreen =({}) => {
-  // const antworteList = await loadFirstInputTest("ПершийВхіднийТест")
+const Widgetfor_WidgetEndeScreen = ({ title, style, styleForText }) => {
   return (
-    <View style={stylesFortestEnde.container}>
-      <View style={stylesFortestEnde.rect8}></View>
-      <Text style={stylesFortestEnde.loremIpsum}>+</Text>
-      <View style={stylesFortestEnde.rect8}></View>
-      <Text style={stylesFortestEnde.loremIpsum}>=</Text>
-      <View style={stylesFortestEnde.rect8}></View>
+    <View style={[stylesFortestEnde.rect8, style, {
+      justifyContent: 'center',
+      alignItems: 'center',
+    }]}>
+      <Text style={[{
+        fontSize: 35,
+        textAlign: 'center',
+      }]}>{title}</Text>
     </View>
   );
-}
+};
+
+export const WidgetEndeScreen = ({listData }) => {
+  if (listData["type"] == "default"){
+    const num1 = listData["task"][0]
+    const num2 = listData["task"][2]
+    const antvorteGut = listData["antvorteGut"]
+    const antworteMann = listData["antvorteMan"]
+    const operation = listData["task"][1]
+    return (
+      <View style={stylesFortestEnde.container}>
+        <Widgetfor_WidgetEndeScreen title={num1} />
+        <Text style={stylesFortestEnde.loremIpsum}>{operation}</Text>
+        <Widgetfor_WidgetEndeScreen title={num2} />
+        <Text style={stylesFortestEnde.loremIpsum}>=</Text>
+        <Widgetfor_WidgetEndeScreen
+          title={antworteMann}
+          style={{ 
+            borderColor: antvorteGut === antworteMann ? 'green' : 'red',
+            borderWidth: 3,
+        }
+        }
+        />
+      </View>
+    );
+  } else if(listData["type"]=="vergleichen"){
+    const num1 = listData["task"][0]
+    const num2 = listData["task"][1]
+    const antvorteGut = listData["antvorteGut"]
+    const antworteMann = listData["antvorteMan"]
+    return (
+      <View style={[stylesFortestEnde.container, {justifyContent: 'center'}]}>
+        <Widgetfor_WidgetEndeScreen title={num1} />
+        <Widgetfor_WidgetEndeScreen
+          title={antworteMann}
+          style={{ 
+            borderColor: antvorteGut === antworteMann ? 'green' : 'red',
+            borderWidth: 3,
+            marginHorizontal:35,
+
+        }
+        } styleForText={{fontSize: 60,}}
+        />
+        <Widgetfor_WidgetEndeScreen title={num2} />
+      </View>)
+  }
+  // console.log(listData)
+  // const num1 = listData["task"][0]
+  // const num2 = listData["task"][2]
+  // const antvorteGut = listData["antvorteGut"]
+  // const antworteMann = listData["antvorteMan"]
+  // const operation = listData["task"][1]
+  // return (
+  //   <View style={stylesFortestEnde.container}>
+  //     <Widgetfor_WidgetEndeScreen title={num1} />
+  //     <Text style={stylesFortestEnde.loremIpsum}>{operation}</Text>
+  //     <Widgetfor_WidgetEndeScreen title={num2} />
+  //     <Text style={stylesFortestEnde.loremIpsum}>=</Text>
+  //     <Widgetfor_WidgetEndeScreen
+  //       title={antworteMann}
+  //       style={{ 
+  //         borderColor: antvorteGut === antworteMann ? 'green' : 'red',
+  //         borderWidth: 3,
+  //     }
+  //     }
+  //     />
+  //   </View>
+  // );
+};
 
 export const stylesFortestEnde = StyleSheet.create({
   container: {
@@ -261,8 +328,10 @@ export const stylesFortestEnde = StyleSheet.create({
     borderColor: "#707070",
    borderWidth: 2,
    flex: 100
+   
   },
   rect8: {
+    
     backgroundColor: "rgba(252, 252, 252,1)",
     borderWidth: 2,
     borderColor: "rgba(112,112,112,1)",
@@ -270,7 +339,10 @@ export const stylesFortestEnde = StyleSheet.create({
     overflow: "visible",
     borderRadius: 14,
     width: 60,
-    height: 60
+    height: 60,
+    fontSize: 35,
+    textAlign: 'center',
+    justifyContent: 'center',
   },
   loremIpsum: {
     color: "#121212",
