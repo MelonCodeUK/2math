@@ -101,8 +101,6 @@ export let WriteZahl = ({ lang, onClickEnter }) => {
 
 
 
-
-
 export const ColumnAdditionAndAubtraction = ({numbers, onClickEnter, operations}) => { // Додавання та віднімання стовпчиком
   let CELL_COUNTq = calculateWithOperations(numbers, operations)
 
@@ -112,14 +110,18 @@ export const ColumnAdditionAndAubtraction = ({numbers, onClickEnter, operations}
     onClickEnter(value.split('').reverse().join(''), onRichtigVaule);
   };
 
-
-const maxColumnLength = CELL_COUNT; // Вычисляем максимальную длину числа в массиве
-const numberes = numbers.map(number => { // Преобразуем каждое число в массив цифр с дополнительными нулями для выравнивания
-  const digits = number.toString().split('').map(digit => parseInt(digit)); // Разбиваем число на массив цифр
-  const padding = Array(maxColumnLength - digits.length).fill(""); // Заполняем пустыми значениями   // Вычисляем количество дополнительных нулей для выравнивания
-  return padding.concat(digits);   // Объединяем массив дополнительных нулей с массивом цифр
-});
-// console.log(Math.max(...numbers).toString().length); // Выводим максимальную длину числа в массиве чисел
+  console.log(CELL_COUNT)
+const maxLength = Math.max(...numbers.map(num => num.toString().length));// Вычисляем максимальную длину числа в массиве
+const arrayOfArrays = numbers.map(number => Array.from(String(number), digit => parseInt(digit)));// Преобразование в массив массивов чисел
+console.log(CELL_COUNT)
+const numberes = arrayOfArrays.map(arr => {
+    // console.log(padding.concat(arr))
+    const padding = Array(CELL_COUNT < arr.length ? 0 : (maxLength - CELL_COUNT) + (CELL_COUNT - arr.length)).fill("");
+    // console.log("r",arr)
+    console.log(arr)
+    return padding.concat(arr);
+})  
+console.log("111", numberes)
     return(
         <View>
           <View style={{ borderBottomWidth: 3, borderBottomColor: '#707070'}}>
@@ -165,6 +167,11 @@ const numberes = numbers.map(number => { // Преобразуем каждое 
     
 
 }
+
+
+
+
+
 
 
 
@@ -245,10 +252,140 @@ const Widgetfor_WidgetEndeScreen = ({ title, style, styleForText }) => {
       <Text style={[{
         fontSize: 35,
         textAlign: 'center',
-      }]}>{title}</Text>
+      }, styleForText]}>{title}</Text>
     </View>
   );
 };
+
+
+
+export const ColumnAdditionAndAubtractionReader = ({isAntvorteColor, rechnenList, rechnenAntwortetMan, rechnenAntwortetGut}) => { // Додавання та віднімання стовпчиком
+const CELL_COUNT = rechnenAntwortetGut;
+const numbers = [];
+const operations = [];
+for (let i = 0; i < rechnenList.length; i++) {
+  const currentItem = rechnenList[i];
+  
+  if (typeof currentItem === 'number') {
+      numbers.push(currentItem);
+  } else if (typeof currentItem === 'string' && currentItem.length === 1) {
+    operations.push(currentItem);}}
+
+const maxLength = Math.max(...numbers.map(num => num.toString().length));// Вычисляем максимальную длину числа в массиве
+console.log(maxLength, String(CELL_COUNT).length)
+const arrayOfArrays = numbers.map(number => Array.from(String(number), digit => parseInt(digit)));// Преобразование в массив массивов чисел
+console.log(Array((maxLength - String(rechnenAntwortetMan).length)).fill("").concat(Array.from(String(rechnenAntwortetMan))))
+const numberes = arrayOfArrays.map(arr => {
+    // console.log(padding.concat(arr))
+    const padding = Array(CELL_COUNT < arr.length ? 0 : (maxLength - CELL_COUNT) + (CELL_COUNT - arr.length)).fill("");
+    // console.log("r",arr)
+    console.log(arr)
+    return padding.concat(arr);
+})  
+// console.log(Math.max(...numbers).toString().length); // Выводим максимальную длину числа в массиве чисел
+const [isFirstView, setFirstView] = useState(true);
+
+const toggleView = () => {
+  setFirstView(!isFirstView);
+};
+rechnenAntwortetMan = rechnenAntwortetMan.toString()
+const renderFirstView = () => {
+  return(
+  <View style={stylesFortestEnde.container}>
+  <Widgetfor_WidgetEndeScreen title={rechnenList[0].toString().length >= 2 ? rechnenList[0].toString().substring(0, 2)+".." : rechnenList[0]} styleForText={{fontSize: 25}}/>
+  <Text style={stylesFortestEnde.loremIpsum}>{rechnenList[1]}</Text>
+  <Widgetfor_WidgetEndeScreen title={'...'} styleForText={{fontSize: 25}}/>
+  <Text style={stylesFortestEnde.loremIpsum}>=</Text>
+  <Widgetfor_WidgetEndeScreen
+    title={rechnenAntwortetMan.toString().length >= 2 ? rechnenAntwortetMan.toString().substring(0, 2)+".." : rechnenAntwortetMan}
+    style={{ 
+      borderColor: isAntvorteColor,
+      borderWidth: 3,
+  }
+  } styleForText={{fontSize: 25}}
+  />
+</View>)
+}
+
+const renderSecondView = () => (
+  <View style={[stylesFortestEnde.container,{alignItems: "center", flexDirection: 'colum', 
+  justifyContent: "center"}]}>
+  <View style={{ borderBottomWidth: 3, borderBottomColor: '#707070' }}>
+    {numberes.map((row, rowIndex) => (
+      <View key={rowIndex} style={[{ flexDirection: 'row' }]}>
+        <View
+          style={[
+            {
+              width: 30,
+              right: 10,
+              top: 30,
+            },
+          ]}
+        >
+          <Text
+            style={[
+              {
+                fontSize: 35,
+                textAlign: 'center',
+              },
+            ]}
+          >
+            {operations[rowIndex]}
+          </Text>
+        </View>
+
+        {row.map((digit, digitIndex) => (
+          <View
+            key={digitIndex}
+            style={[
+              {
+                width: 60,
+                height: 60,
+                margin: 1,
+              },
+            ]}
+          >
+            <Widgetfor_WidgetEndeScreen
+            key={digitIndex}
+              style={
+                {
+                  margin: 0,
+                  backgroundColor: digit === '' ? 'transparent' : '#fff',
+                  borderColor: digit === '' ? 'transparent' : 'rgba(112,112,112,1)',
+                }}
+                title={digit}
+            >
+            </Widgetfor_WidgetEndeScreen>
+          </View>
+        ))}
+      </View>
+    ))}
+  </View>
+  <View style={{ flexDirection: 'row', textAlign: 'center' }}>
+  <View style={{width:35}}></View>
+  {Array((maxLength - String(rechnenAntwortetMan).length)).fill("").concat(Array.from(String(rechnenAntwortetMan))).map((row, rowIndex) => (
+    //  console.log(row)
+     <Widgetfor_WidgetEndeScreen key={rowIndex} title={row} style={{margin:0}}></Widgetfor_WidgetEndeScreen>
+     
+     ))}
+
+  </View>
+  </View>
+);
+
+return (
+  <TouchableOpacity onPress={toggleView}>
+    {isFirstView ? renderFirstView() : renderSecondView()}
+  </TouchableOpacity>
+);
+};
+    
+
+
+
+
+
+
 
 export const WidgetEndeScreen = ({listData }) => {
   if (listData["type"] == "default"){
@@ -289,10 +426,17 @@ export const WidgetEndeScreen = ({listData }) => {
             marginHorizontal:35,
 
         }
-        } styleForText={{fontSize: 60,}}
+        }
         />
         <Widgetfor_WidgetEndeScreen title={num2} />
       </View>)
+  } else if(listData["type"]=="onDefault"){
+    return(
+      <View>
+      <ColumnAdditionAndAubtractionReader isAntvorteColor={listData["antvorteGut"] === listData["antvorteMan"] ? 'green' : 'red'} rechnenList={listData["task"]} rechnenAntwortetMan={listData["antvorteMan"]} rechnenAntwortetGut={listData["antvorteGut"]}></ColumnAdditionAndAubtractionReader>
+      </View>
+    )
+
   }
   // console.log(listData)
   // const num1 = listData["task"][0]

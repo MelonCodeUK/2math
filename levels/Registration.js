@@ -503,8 +503,11 @@ export function RegistrationScreen_Ende({navigation}){
          }}>
 
         {data ?(
-         Object.keys(data).map((key) => (
-          <WidgetEndeScreen key={key} listData={data[key]}></WidgetEndeScreen>
+         Object.keys(data).map((key) => ( 
+          <React.Fragment key={key}>
+            <WidgetEndeScreen key={key} listData={data[key]}></WidgetEndeScreen>
+            <View style={{margin:10}}></View>
+        </React.Fragment>
           ))
         ) : (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
