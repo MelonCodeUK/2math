@@ -1,14 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Text, View, Animated, Image , Button, ScrollView } from 'react-native';
+import { Text, View, Animated, Image , Button, ScrollView, TouchableOpacity} from 'react-native';
 import { styles } from './../styles/ALLSTYLE.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { shuffleArray, saveFirstInputTest, twoRandomNumbers, GrosserKleinerGleich, loadFirstInputTest, clearFirstInputTest, getEndeLevels} from './../func.js';
 import {Stack} from "./../App.js"
 import { AnswerButton, ColumnAdditionAndAubtraction, WidgetEndeScreen} from '../src/moduls/widgets.js';
 import LottieView from "lottie-react-native";
+import {vieleFrageTest} from "./../src/settings.js"
 
 
-const vieleFrageTest = 6;
 
 
 
@@ -494,7 +494,6 @@ export function RegistrationScreen_Ende({navigation}){
     
     fetchData();
   }, []); // Пустой массив зависимостей означает, что useEffect будет вызван только при монтировании компонента
-  const lifl = data
   return (
     <View style={{ flex: 1, backgroundColor: "#98EB9E"}}>
       {/* ScrollView для текстового элемента */}
@@ -523,12 +522,14 @@ export function RegistrationScreen_Ende({navigation}){
       </ScrollView>
 
       {/* Кнопка "Продолжить" */}
+      
       <View style={{ backgroundColor: 'white', 
       padding: 10, 
       borderTopLeftRadius: 20, 
       borderTopRightRadius:20, 
       borderColor:"#707070", 
       borderWidth: 2}}>
+      <TouchableOpacity onPress={navigation.navigate("Home")}>
       <View style={{
          flexDirection: 'row', 
       justifyContent: 'space-between', 
@@ -544,67 +545,10 @@ export function RegistrationScreen_Ende({navigation}){
     backgroundColor: '#BAF1C3', 
     borderRadius:20, 
     borderColor: "#707070"}} />
-</View>
-
+  </View>
+  </TouchableOpacity>
         </View>
+        
     </View>
   );
 };
-
-
-
-
-
-// import * as React from 'react';
-// import { View, Text, Button } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// function HomeScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Home Screen</Text>
-//       <Button
-//         title="Go to Details"
-//         onPress={() => navigation.navigate('Details')}
-//       />
-//     </View>
-//   );
-// }
-
-// function DetailsScreen({ navigation }) {
-  
-//   React.useLayoutEffect(() => {
-//     navigation.setOptions({
-//       headerLeft: () => false, // Скрыть кнопку "назад"
-//     });
-//   }, [navigation]);
-
-//   return (
-//     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//       <Text>Details Screen</Text>
-//     </View>
-//   );
-// }
-
-// const Stack = createNativeStackNavigator();
-
-// function App() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator initialRouteName="Home">
-//         <Stack.Screen
-//           name="Home"
-//           component={HomeScreen}
-//           options={{ title: 'Overview' }}
-//         />
-//         <Stack.Screen 
-//           name="Details" 
-//           component={DetailsScreen} 
-//         />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// }
-
-// export default App;

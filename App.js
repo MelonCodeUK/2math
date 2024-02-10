@@ -2,10 +2,14 @@ import { StatusBar } from 'expo-status-bar';
 import {Text, View, Animated, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native'
 import React, { useRef, useState, useEffect } from 'react';
 import {styles} from "./styles/ALLSTYLE.js";
 import {Registration} from "./levels/Registration.js"
 import LottieView from "lottie-react-native";
+import HomeScreen from "./levels/menu.js"
+import { shuffleArray, saveFirstInputTest, twoRandomNumbers, GrosserKleinerGleich, loadFirstInputTest, clearFirstInputTest, getEndeLevels} from './func.js';
+import {vieleFrageTest} from "./src/settings.js"
 
 export const Stack = createNativeStackNavigator();
 
@@ -14,10 +18,22 @@ function StartScreen({navigation}) {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000); // Здесь вы можете установить время загрузки
-  }, []);
+    // Вызываем вашу функцию загрузки данных
+    const fetchData = async () => {
+      setTimeout(async() => {
+      try {
+        const loadedData = await loadFirstInputTest('ПершийВхіднийТест'); // Замените 'your_key' на ваш ключ
+        if (Object.keys(loadedData).reduce((a, b) => (parseInt(a) > parseInt(b) ? a : b)) == vieleFrageTest){
+          navigation.navigate("Home")
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки данных:', error);
+      }})
+    };
+    
+    fetchData();
+  }, []); // Пустой массив зависимостей означает, что useEffect будет вызван только при монтировании компонента
 
   const moveButton = () => {
     Animated.timing(moveAnimation, {
@@ -56,12 +72,17 @@ function StartScreen({navigation}) {
   );
 }
 
+export function HomeScreenes({ navigation }) {
+  return HomeScreen;
+  
+}
+
+
+
+
 export default function App() {
   const animation = useRef(null);
-  useEffect(() => {
-    // You can control the ref programmatically, rather than using autoPlay
-    // animation.current?.play();
-  }, []);
+
   return (
     <NavigationContainer style={styles.container}>
        <LottieView
@@ -73,6 +94,7 @@ export default function App() {
     />
   <StatusBar style="auto" />
   <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false }}>
+    {}
   <Stack.Screen
     name="Start"
     component={StartScreen}
@@ -80,6 +102,9 @@ export default function App() {
   <Stack.Screen 
     name="ПершийВхіднийТест" 
     component={Registration}
+  />
+  <Stack.Screen name="Home"
+  component={HomeScreenes}
   />
 </Stack.Navigator>
 
