@@ -104,7 +104,7 @@ export default function App() {
     component={Registration}
   />
   <Stack.Screen name="Home"
-  component={HomeScreenes}
+  component={HomeScreen}
   />
 </Stack.Navigator>
 

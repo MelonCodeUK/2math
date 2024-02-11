@@ -470,7 +470,7 @@ export function RegistrationScreen_Test_6({ navigation }) {
 
 
 
-export function RegistrationScreen_Ende({navigation}){
+export default RegistrationScreen_Ende = ({navigation}) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => false, // Hide the back button
@@ -494,6 +494,9 @@ export function RegistrationScreen_Ende({navigation}){
     
     fetchData();
   }, []); // Пустой массив зависимостей означает, что useEffect будет вызван только при монтировании компонента
+  const go2TheHome = () => {
+    navigation.navigate("Home")
+  }
   return (
     <View style={{ flex: 1, backgroundColor: "#98EB9E"}}>
       {/* ScrollView для текстового элемента */}
@@ -529,7 +532,7 @@ export function RegistrationScreen_Ende({navigation}){
       borderTopRightRadius:20, 
       borderColor:"#707070", 
       borderWidth: 2}}>
-      <TouchableOpacity onPress={navigation.navigate("Home")}>
+      <TouchableOpacity onPress={go2TheHome}>
       <View style={{
          flexDirection: 'row', 
       justifyContent: 'space-between', 
