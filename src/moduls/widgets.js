@@ -102,9 +102,9 @@ export let WriteZahl = ({ lang, onClickEnter }) => {
 
 
 export const ColumnAdditionAndAubtraction = ({numbers, onClickEnter, operations}) => { // Додавання та віднімання стовпчиком
-  let CELL_COUNTq = calculateWithOperations(numbers, operations)
+  let CELL_COUNTq = calculateWithOperations(numbers, operations)//сумма
 
-  let CELL_COUNT = CELL_COUNTq.toString().length;
+  let CELL_COUNT = CELL_COUNTq.toString().length;//довжина сумми
   const enterClick = (value) => { // Передаем значение ввода в родительский компонент
     let onRichtigVaule = CELL_COUNTq
     onClickEnter(value.split('').reverse().join(''), onRichtigVaule);
@@ -112,11 +112,12 @@ export const ColumnAdditionAndAubtraction = ({numbers, onClickEnter, operations}
 
   console.log(CELL_COUNT)
 const maxLength = Math.max(...numbers.map(num => num.toString().length));// Вычисляем максимальную длину числа в массиве
+console.log(maxLength)
 const arrayOfArrays = numbers.map(number => Array.from(String(number), digit => parseInt(digit)));// Преобразование в массив массивов чисел
 console.log(CELL_COUNT)
 const numberes = arrayOfArrays.map(arr => {
     // console.log(padding.concat(arr))
-    const padding = Array(CELL_COUNT < arr.length ? 0 : (maxLength - CELL_COUNT) + (CELL_COUNT - arr.length)).fill("");
+    const padding = Array(CELL_COUNT < arr.length ? 0 : (maxLength - CELL_COUNT) + (CELL_COUNT - arr.length) == 0 ? CELL_COUNT - arr.length : (maxLength - CELL_COUNT) + (CELL_COUNT - arr.length)).fill("");
     // console.log("r",arr)
     console.log(arr)
     return padding.concat(arr);
@@ -261,13 +262,13 @@ const Widgetfor_WidgetEndeScreen = ({ title, style, styleForText }) => {
 
 export const ColumnAdditionAndAubtractionReader = ({isAntvorteColor, rechnenList, rechnenAntwortetMan, rechnenAntwortetGut}) => { // Додавання та віднімання стовпчиком
 const CELL_COUNT = rechnenAntwortetGut;
-const numbers = [];
+const numbers = [21, 214, 65];
 const operations = [];
 for (let i = 0; i < rechnenList.length; i++) {
   const currentItem = rechnenList[i];
   
   if (typeof currentItem === 'number') {
-      numbers.push(currentItem);
+      // numbers.push(currentItem);
   } else if (typeof currentItem === 'string' && currentItem.length === 1) {
     operations.push(currentItem);}}
 
@@ -363,9 +364,9 @@ const renderSecondView = () => (
   </View>
   <View style={{ flexDirection: 'row', textAlign: 'center' }}>
   <View style={{width:35}}></View>
-  {Array((maxLength - String(rechnenAntwortetMan).length)).fill("").concat(Array.from(String(rechnenAntwortetMan))).map((row, rowIndex) => (
+  {Array((maxLength < String(rechnenAntwortetMan).length ? String(rechnenAntwortetMan).length - maxLength : maxLength - String(rechnenAntwortetMan).length )).fill("").concat(Array.from(String(rechnenAntwortetMan))).map((row, rowIndex) => (
     //  console.log(row)
-     <Widgetfor_WidgetEndeScreen key={rowIndex} title={row} style={{margin:0}}></Widgetfor_WidgetEndeScreen>
+     <Widgetfor_WidgetEndeScreen key={rowIndex} title={row} style={{margin:0 }}></Widgetfor_WidgetEndeScreen>
      
      ))}
 

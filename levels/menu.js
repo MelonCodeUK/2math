@@ -32,8 +32,9 @@ const HomeScreen = ({ navigation }) => {
   return (
     <Tab.Navigator
     screenOptions={({ route }) => ({
+        labelStyle: { display: 'none' }, // Это скроет текст под иконками
         tabBarStyle:{
-            position:'obsolute',
+            position:'absolute',
             bottom:16,
             right:16,
             left:16,
@@ -44,9 +45,6 @@ const HomeScreen = ({ navigation }) => {
           return <Image source={item.icon} style={{ width: 30, height: 30, tintColor: color }} />;
         },
       })}
-      tabBarOptions={{
-        labelStyle: { display: 'none' }, // Это скроет текст под иконками
-      }}
     >
       {tabBarData.map((item, index) => (
         <Tab.Screen

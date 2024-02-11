@@ -23,8 +23,12 @@ function StartScreen({navigation}) {
       setTimeout(async() => {
       try {
         const loadedData = await loadFirstInputTest('ПершийВхіднийТест'); // Замените 'your_key' на ваш ключ
-        if (Object.keys(loadedData).reduce((a, b) => (parseInt(a) > parseInt(b) ? a : b)) == vieleFrageTest){
+        console.log(loadedData)
+        if (Object.keys(loadedData).reduce((a, b) => (parseInt(a) > parseInt(b) ? a : b), 0) == vieleFrageTest){
           navigation.navigate("Home")
+          setLoading(false);
+        
+        }else{
           setLoading(false);
         }
       } catch (error) {
@@ -85,16 +89,8 @@ export default function App() {
 
   return (
     <NavigationContainer style={styles.container}>
-       <LottieView
-      source={require("./assets/loading.json")}
-      ref={animation}
-      style={{width: 700, height: 700, position:"absolute", justifyContent: 'center',
-      alignItems: 'center'}}
-      autoPlay
-    />
   <StatusBar style="auto" />
   <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false }}>
-    {}
   <Stack.Screen
     name="Start"
     component={StartScreen}
