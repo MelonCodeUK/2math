@@ -262,13 +262,13 @@ const Widgetfor_WidgetEndeScreen = ({ title, style, styleForText }) => {
 
 export const ColumnAdditionAndAubtractionReader = ({isAntvorteColor, rechnenList, rechnenAntwortetMan, rechnenAntwortetGut}) => { // Додавання та віднімання стовпчиком
 const CELL_COUNT = rechnenAntwortetGut;
-const numbers = [21, 214, 65];
+const numbers = [];
 const operations = [];
 for (let i = 0; i < rechnenList.length; i++) {
   const currentItem = rechnenList[i];
   
   if (typeof currentItem === 'number') {
-      // numbers.push(currentItem);
+      numbers.push(currentItem);
   } else if (typeof currentItem === 'string' && currentItem.length === 1) {
     operations.push(currentItem);}}
 
