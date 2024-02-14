@@ -366,7 +366,10 @@ const renderSecondView = () => (
   <View style={{width:35}}></View>
   {Array((maxLength < String(rechnenAntwortetMan).length ? String(rechnenAntwortetMan).length - maxLength : maxLength - String(rechnenAntwortetMan).length )).fill("").concat(Array.from(String(rechnenAntwortetMan))).map((row, rowIndex) => (
     //  console.log(row)
-     <Widgetfor_WidgetEndeScreen key={rowIndex} title={row} style={{margin:0 }}></Widgetfor_WidgetEndeScreen>
+     <Widgetfor_WidgetEndeScreen key={rowIndex} title={row} style={{margin:1,
+      backgroundColor: row  === '' ? 'transparent' : '#fff',
+      borderColor: row === '' ? 'transparent' : 'rgba(112,112,112,1)',
+    }}></Widgetfor_WidgetEndeScreen>
      
      ))}
 

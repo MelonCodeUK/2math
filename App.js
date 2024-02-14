@@ -11,6 +11,7 @@ import HomeScreen from "./levels/menu.js"
 import { shuffleArray, saveFirstInputTest, twoRandomNumbers, GrosserKleinerGleich, loadFirstInputTest, clearFirstInputTest, getEndeLevels} from './func.js';
 import {vieleFrageTest} from "./src/settings.js"
 
+
 export const Stack = createNativeStackNavigator();
 
 function StartScreen({navigation}) {
@@ -67,9 +68,7 @@ function StartScreen({navigation}) {
         <Text style={[{ position: 'absolute', top: 5, left: 60, fontSize: 35 }]}> = </Text>
         <Text style={[styles.number, { borderColor: '#636363', top: 0, left: 100 }]}></Text>
         <Animated.View style={[moveAnimation.getLayout(), { width: 50, height: 50 }]}>
-          <TouchableOpacity onPress={moveButton}>
-            <Text style={[{ position: 'absolute', top: 100, left: 0 }, styles.number]}>2</Text>
-          </TouchableOpacity>
+            <Text style={[{ position: 'absolute', top: 100, left: 0 }, styles.number]} onPress={moveButton}>2</Text>
         </Animated.View>
       </View>
     </View>
@@ -85,12 +84,11 @@ export function HomeScreenes({ navigation }) {
 
 
 export default function App() {
-  const animation = useRef(null);
 
   return (
     <NavigationContainer style={styles.container}>
   <StatusBar style="auto" />
-  <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false }}>
+  <Stack.Navigator initialRouteName="Start" screenOptions={{ headerShown: false,  animation: 'slide_from_right'}}>
   <Stack.Screen
     name="Start"
     component={StartScreen}

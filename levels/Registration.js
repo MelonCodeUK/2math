@@ -20,10 +20,10 @@ export function Registration({navigation}){
   }, [navigation])
   return(
     // <View style={styles.container}>
-    <Stack.Navigator style={styles.container}>
+    <Stack.Navigator style={styles.container} screenOptions={{ animation: 'slide_from_right'}}>
         <Stack.Screen name="ПершийВхіднийТест_1"
          component={RegistrationScreen_Test_1}
-         options={{ title: 'Почнімо✏️'}}
+         options={{ title: 'Почнімо✏️',  headerBackTitleVisible: false,}}
          />
         <Stack.Screen name="ПершийВхіднийТест_2"
          component={RegistrationScreen_Test_2}
